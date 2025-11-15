@@ -16,12 +16,12 @@ import java.sql.SQLException;
  *
  * @author Gokhan
  */
-public class MeniItemDAO implements DAO<MenuItem>
+public class MenuItemDAO implements DAO<MenuItem>
 {   
-    public MeniItemDAO() {
+    public MenuItemDAO() {
         
     }
-    List<MenuItem> MeniItems;
+    List<MenuItem> menuItems;
     /**
      * Get a single contact entity as a contact object
      * @param id
@@ -40,7 +40,7 @@ public class MeniItemDAO implements DAO<MenuItem>
             while (rs.next()) {
                 menuItem = new MenuItem(rs.getInt("id"), rs.getString("itemname"), rs.getString("itemdescription"), rs.getDouble("price"));
             }
-            return Optional.ofNullable(contact);
+            return Optional.ofNullable(menuItem);
         } catch (SQLException ex) {
             System.err.println(ex.toString());
             return null;
@@ -73,7 +73,7 @@ public class MeniItemDAO implements DAO<MenuItem>
     
     /**
      * Insert a contact object into item table
-     * @param contact 
+     * @param
      */
     @Override
     public void insert(MenuItem menuItem)
@@ -85,7 +85,7 @@ public class MeniItemDAO implements DAO<MenuItem>
             stmt.setInt(1, menuItem.getID());
             stmt.setString(2, menuItem.getItemName());
             stmt.setString(3, menuItem.getItemDescription());
-            stmt.setString(4, menuItem.getPrice());
+            stmt.setDouble(4, menuItem.getPrice());
             int rowInserted = stmt.executeUpdate();
             if (rowInserted > 0) {
                 System.out.println("A new item was inserted successfully!");
@@ -97,7 +97,7 @@ public class MeniItemDAO implements DAO<MenuItem>
     
     /**
      * Update a contact entity in database if it exists using a contact object
-     * @param contact
+     * @param menuItem
      */
     @Override
     public void update(MenuItem menuItem) {
@@ -106,8 +106,8 @@ public class MeniItemDAO implements DAO<MenuItem>
             String sql = "UPDATE MenuItem SET itemname=?, itemdescription=?, price=? WHERE id=?";
             PreparedStatement stmt = db.getPreparedStatement(sql);
             stmt.setString(1, menuItem.getItemName());
-            stmt.setString(2, menuItem.getItemDescrption());
-            stmt.setString(3, menuItem.getPrice());
+            stmt.setString(2, menuItem.getItemDescription());
+            stmt.setDouble(3, menuItem.getPrice());
             stmt.setInt(4, menuItem.getID());
             int rowsUpdated = stmt.executeUpdate();
             if (rowsUpdated > 0) {
@@ -120,7 +120,7 @@ public class MeniItemDAO implements DAO<MenuItem>
     
     /**
      * Delete a contact from contact table if the entity exists
-     * @param contact 
+     * @param menuItem
      */
     @Override
     public void delete(MenuItem menuItem) {

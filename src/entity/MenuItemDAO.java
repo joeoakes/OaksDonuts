@@ -16,29 +16,29 @@ import java.sql.SQLException;
  *
  * @author Gokhan
  */
-public class ContactDAO implements DAO<Contact>
+public class MeniItemDAO implements DAO<MeniItem>
 {   
-    public ContactDAO() {
+    public MeniItemDAO() {
         
     }
-    List<Contact> contacts;
+    List<MeniItem> MeniItems;
     /**
      * Get a single contact entity as a contact object
      * @param id
      * @return 
      */
     @Override
-    public Optional<Contact> get(int id) {
+    public Optional<MenuItem> get(int id) {
         DB db = DB.getInstance();
         ResultSet rs = null;
         try {
-            String sql = "SELECT * FROM Contact WHERE id = ?";
+            String sql = "SELECT * FROM MenuItem WHERE id = ?";
             PreparedStatement stmt = db.getPreparedStatement(sql);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
-            Contact contact = null;
+            MenuItem menuItem = null;
             while (rs.next()) {
-                contact = new Contact(rs.getInt("id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("phonenumber"));
+                menuItem = new MenuItem(rs.getInt("id"), rs.getString("itemname"), rs.getString("itemdescription"), rs.getDouble("price"));
             }
             return Optional.ofNullable(contact);
         } catch (SQLException ex) {
@@ -48,23 +48,23 @@ public class ContactDAO implements DAO<Contact>
     }
     
     /**
-     * Get all contact entities as a List
+     * Get all MeniItem entities as a List
      * @return 
      */
     @Override
-    public List<Contact> getAll() {
+    public List<MenuItem> getAll() {
         DB db = DB.getInstance();
         ResultSet rs = null;
-        contacts = new ArrayList<>();
+        menuItems = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Contact ORDER BY id";
+            String sql = "SELECT * FROM MenuItem ORDER BY id";
             rs = db.executeQuery(sql);
-            Contact contact = null;
+            MenuItem menuItem = null;
             while (rs.next()) {
-                contact = new Contact(rs.getInt("id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("phonenumber"));
-                contacts.add(contact);
+                menuItem = new MenuItem(rs.getInt("id"), rs.getString("itemname"), rs.getString("itemdescription"), rs.getDouble("price"));
+                menuItems.add(menuItem);
             }
-            return contacts;
+            return menuItems;
         } catch (SQLException ex) {
             System.err.println(ex.toString());
             return null;
@@ -72,23 +72,23 @@ public class ContactDAO implements DAO<Contact>
     }
     
     /**
-     * Insert a contact object into contact table
+     * Insert a contact object into item table
      * @param contact 
      */
     @Override
-    public void insert(Contact contact)
+    public void insert(MenuItem menuItem)
     {
         DB db = DB.getInstance();
         try {
-            String sql = "INSERT INTO Contact(ID, firstName, lastName, phoneNumber) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO MenuItem(ID, itemname, itemdescription, price) VALUES (?, ?, ?, ?)";
             PreparedStatement stmt = db.getPreparedStatement(sql);
-            stmt.setInt(1, contact.getID());
-            stmt.setString(2, contact.getFirstName());
-            stmt.setString(3, contact.getLastName());
-            stmt.setString(4, contact.getPhoneNumber());
+            stmt.setInt(1, menuItem.getID());
+            stmt.setString(2, menuItem.getItemName());
+            stmt.setString(3, menuItem.getItemDescription());
+            stmt.setString(4, menuItem.getPrice());
             int rowInserted = stmt.executeUpdate();
             if (rowInserted > 0) {
-                System.out.println("A new contact was inserted successfully!");
+                System.out.println("A new item was inserted successfully!");
             }
         } catch (SQLException ex) {
             System.err.println(ex.toString());
@@ -100,18 +100,18 @@ public class ContactDAO implements DAO<Contact>
      * @param contact
      */
     @Override
-    public void update(Contact contact) {
+    public void update(MenuItem menuItem) {
         DB db = DB.getInstance();
         try {
-            String sql = "UPDATE Contact SET firstName=?, lastName=?, phoneNumber=? WHERE id=?";
+            String sql = "UPDATE MenuItem SET itemname=?, itemdescription=?, price=? WHERE id=?";
             PreparedStatement stmt = db.getPreparedStatement(sql);
-            stmt.setString(1, contact.getFirstName());
-            stmt.setString(2, contact.getLastName());
-            stmt.setString(3, contact.getPhoneNumber());
-            stmt.setInt(4, contact.getID());
+            stmt.setString(1, menuItem.getItemName());
+            stmt.setString(2, menuItem.getItemDescrption());
+            stmt.setString(3, menuItem.getPrice());
+            stmt.setInt(4, menuItem.getID());
             int rowsUpdated = stmt.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("An existing contact was updated successfully!");
+                System.out.println("An existing item was updated successfully!");
             }
         } catch (SQLException ex) {
             System.err.println(ex.toString());
@@ -123,15 +123,15 @@ public class ContactDAO implements DAO<Contact>
      * @param contact 
      */
     @Override
-    public void delete(Contact contact) {
+    public void delete(MenuItem menuItem) {
         DB db = DB.getInstance();
         try {
             String sql = "DELETE FROM Contact WHERE ID = ?";
             PreparedStatement stmt = db.getPreparedStatement(sql);
-            stmt.setInt(1, contact.getID());
+            stmt.setInt(1, menuItem.getID());
             int rowsDeleted = stmt.executeUpdate();
             if (rowsDeleted > 0) {
-                System.out.println("A contact was deleted successfully!");
+                System.out.println("A Item was deleted successfully!");
             }
         } catch (SQLException ex) {
             System.err.println(ex.toString());

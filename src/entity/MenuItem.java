@@ -31,7 +31,7 @@ public class MenuItem
         return itemName;
     }
 
-    public String getitemDescription() {
+    public String getItemDescription() {
         return itemDescription;
     }
 

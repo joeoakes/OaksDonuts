@@ -16,12 +16,12 @@ import java.sql.SQLException;
  *
  * @author Gokhan
  */
-public class MeniItemDAO implements DAO<MeniItem>
+public class MeniItemDAO implements DAO<MenuItem>
 {   
     public MeniItemDAO() {
         
     }
-    List<MeniItem> MeniItems;
+    List<MenuItem> MeniItems;
     /**
      * Get a single contact entity as a contact object
      * @param id
@@ -126,7 +126,7 @@ public class MeniItemDAO implements DAO<MeniItem>
     public void delete(MenuItem menuItem) {
         DB db = DB.getInstance();
         try {
-            String sql = "DELETE FROM Contact WHERE ID = ?";
+            String sql = "DELETE FROM MenuItem WHERE ID = ?";
             PreparedStatement stmt = db.getPreparedStatement(sql);
             stmt.setInt(1, menuItem.getID());
             int rowsDeleted = stmt.executeUpdate();
@@ -148,7 +148,7 @@ public class MeniItemDAO implements DAO<MeniItem>
         ResultSet rs = null;
         List<String> headers = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Contact WHERE ID = -1";//We just need this sql query to get the column headers
+            String sql = "SELECT * FROM MenuItem WHERE ID = -1";//We just need this sql query to get the column headers
             rs = db.executeQuery(sql);
             ResultSetMetaData rsmd = rs.getMetaData();
             //Get number of columns in the result set
